@@ -1,73 +1,77 @@
-package heaps
+package medianfinder
 
-type MyMinHeap struct {
-	data []UserBalance
+type MinHeap struct {
+	data []int
 	size int
 }
 
-func NewMyMinHeap() *MyMinHeap {
-	return &MyMinHeap{
-		data: []UserBalance{},
+func NewMinHeap() *MinHeap {
+	return &MinHeap{
+		data: []int{},
 		size: 0,
 	}
 }
 
-func (h *MyMinHeap) add(userBalance UserBalance) {
+func (h *MinHeap) add(num int) {
 	h.size += 1
-	h.data = append(h.data, userBalance)
+	h.data = append(h.data, num)
 	h.heapifyUp(h.size - 1)
 }
 
-func (h *MyMinHeap) poll() *UserBalance {
+func (h *MinHeap) poll() int {
 	if h.size <= 0 {
-		return nil
+		return -1
 	}
 
-	userBalance := h.data[0]
+	num := h.data[0]
 	h.size -= 1
 	h.data[0] = h.data[h.size]
 	h.data = h.data[:h.size]
 	h.heapifyDown(0)
 
-	return &userBalance
+	return num
 }
 
-func (h *MyMinHeap) peek() *UserBalance {
+func (h *MinHeap) peek() int {
 	if h.size <= 0 {
-		return nil
+		return -1
 	}
 
-	return &h.data[0]
+	return h.data[0]
 }
 
-func (h *MyMinHeap) heapifyUp(index int) {
+func (h *MinHeap) isEmpty() bool {
+	return h.size <= 0
+}
+
+func (h *MinHeap) heapifyUp(index int) {
 	if h.size == 0 && !h.isValidIndex(index) {
 		return
 	}
 
 	parentInd := parent(index)
-	if parentInd >= 0 && h.data[index].balance < h.data[parentInd].balance {
+	if parentInd >= 0 && h.data[index] < h.data[parentInd] {
 		h.swap(parentInd, index)
 		h.heapifyUp(parentInd)
 	}
 }
 
-func (h *MyMinHeap) heapifyDown(index int) {
+func (h *MinHeap) heapifyDown(index int) {
 	if h.size == 0 || !h.isValidIndex(index) {
 		return
 	}
 
 	minIndex := index
-	minBalance := h.data[index].balance
+	minNum := h.data[index]
 	if leftChildInd := leftChild(index); h.isValidIndex(leftChildInd) {
-		if minBalance > h.data[leftChildInd].balance {
-			minBalance = h.data[leftChildInd].balance
+		if minNum > h.data[leftChildInd] {
+			minNum = h.data[leftChildInd]
 			minIndex = leftChildInd
 		}
 	}
 
 	if rightChildInd := rightChild(index); h.isValidIndex(rightChildInd) {
-		if minBalance > h.data[rightChildInd].balance {
+		if minNum > h.data[rightChildInd] {
 			// minBalance = h.data[rightChildInd].balance
 			minIndex = rightChildInd
 		}
@@ -80,11 +84,11 @@ func (h *MyMinHeap) heapifyDown(index int) {
 
 }
 
-func (h *MyMinHeap) isValidIndex(index int) bool {
+func (h *MinHeap) isValidIndex(index int) bool {
 	return index >= 0 && index < h.size
 }
 
-func (h *MyMinHeap) swap(i int, j int) {
+func (h *MinHeap) swap(i int, j int) {
 	if h.size <= 0 || i < 0 || j < 0 || i >= h.size || j >= h.size {
 		return
 	}

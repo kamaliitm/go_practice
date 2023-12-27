@@ -18,11 +18,11 @@ func NewNode(r rune) *Node {
 	}
 }
 
-type Trie struct {
+type TrieTemp struct {
 	root *Node
 }
 
-func (t *Trie) insert(word string) bool {
+func (t *TrieTemp) insert(word string) bool {
 	// if t == nil || t.root == nil {
 	// 	t = &Trie{NewNode('\000')}
 	// }
@@ -74,7 +74,7 @@ func (t *Trie) insert(word string) bool {
 func noPrefix(words []string) {
 	// Write your code here
 
-	trie := &Trie{NewNode('\000')}
+	trie := &TrieTemp{NewNode('\000')}
 	for _, word := range words {
 		if !trie.insert(word) {
 			fmt.Println("BAD SET")

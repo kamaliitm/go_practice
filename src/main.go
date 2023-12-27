@@ -3,14 +3,74 @@ package main
 import (
 	"fmt"
 	"math"
+	"time"
 )
 
 func main() {
 
-	fmt.Println(knapsackIterative([][]int32{
-		{65, 20}, {35, 8}, {245, 60}, {195, 55}, {65, 40}, {150, 70}, {275, 85}, {155, 25},
-		{120, 30}, {320, 65}, {75, 75}, {40, 10}, {200, 95}, {100, 50}, {220, 40}, {99, 10},
-	}, 130))
+	// fixedWindowAlgo := NewFixedWindowAlgorithm(3, 3)
+	slidingWindowAlgo := NewSlidingWindowAlgorithm(3, 3)
+	rateLimiter := NewRateLimiter(slidingWindowAlgo)
+	fmt.Println(rateLimiter.canAcceptRequest("u1", "u1r1"))
+	time.Sleep(1 * time.Second)
+	fmt.Println(rateLimiter.canAcceptRequest("u1", "u1r2"))
+	time.Sleep(1 * time.Second)
+	fmt.Println(rateLimiter.canAcceptRequest("u1", "u1r3"))
+	time.Sleep(2 * time.Second)
+	fmt.Println(rateLimiter.canAcceptRequest("u1", "u1r4"))
+	fmt.Println(rateLimiter.canAcceptRequest("u2", "u2r1"))
+	time.Sleep(1 * time.Second)
+	fmt.Println(rateLimiter.canAcceptRequest("u1", "u1r5"))
+
+	// mf := medianfinder.MFConstructor()
+	// mf.AddNum(1)
+	// fmt.Println(mf.FindMedian())
+	// mf.AddNum(2)
+	// fmt.Println(mf.FindMedian())
+	// mf.AddNum(3)
+	// fmt.Println(mf.FindMedian())
+	// mf.AddNum(4)
+	// fmt.Println(mf.FindMedian())
+	// mf.AddNum(5)
+	// fmt.Println(mf.FindMedian())
+	// mf.AddNum(6)
+	// fmt.Println(mf.FindMedian())
+	// mf.AddNum(7)
+	// fmt.Println(mf.FindMedian())
+	// mf.AddNum(8)
+	// fmt.Println(mf.FindMedian())
+	// mf.AddNum(9)
+	// fmt.Println(mf.FindMedian())
+	// mf.AddNum(10)
+	// fmt.Println(mf.FindMedian())
+
+	// fmt.Println(maxAncestorDiff(buildTreeFromArray([]int{1, math.MinInt, 2, math.MinInt, 0, 3})))
+
+	// obj := trie.Constructor()
+	// obj.Insert("apple")
+	// fmt.Println(obj.Search("apple"))
+	// fmt.Println(obj.Search("app"))
+	// fmt.Println(obj.StartsWith("app	"))
+
+	// fmt.Println(reverseInt(1534236469))
+
+	// fmt.Println(maximalSquare([][]string{
+	// 	{"1", "0", "1", "0", "0"},
+	// 	{"1", "0", "1", "1", "1"},
+	// 	{"1", "1", "1", "1", "1"},
+	// 	{"1", "0", "0", "1", "0"},
+	// }))
+	// fmt.Println(jump([]int{2, 3, 0, 1, 4}))
+	// fmt.Println(diameterOfBinaryTree(buildTreeFromArray([]int{1, 2})))
+	// fmt.Println(pathSum(buildTreeFromArray([]int{10, 5, -3, 3, 2, 0, 11, 3, -2, 0, 1}), 8))
+	// fmt.Println(longestValidParenthesis(""))
+
+	// fmt.Println(decodeString("3[a]2[bc]"))
+
+	// fmt.Println(knapsackIterative([][]int32{
+	// 	{65, 20}, {35, 8}, {245, 60}, {195, 55}, {65, 40}, {150, 70}, {275, 85}, {155, 25},
+	// 	{120, 30}, {320, 65}, {75, 75}, {40, 10}, {200, 95}, {100, 50}, {220, 40}, {99, 10},
+	// }, 130))
 
 	// slBoard := NewSnakeAndLadderBoard()
 	// slBoard.addSnake(62, 5)

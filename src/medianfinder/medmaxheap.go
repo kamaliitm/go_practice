@@ -1,79 +1,78 @@
-package heaps
+package medianfinder
 
-type UserBalance struct {
-	userId  string
-	balance float32
-}
-
-type MyMaxHeap struct {
-	data []UserBalance
+type MaxHeap struct {
+	data []int
 	size int
 }
 
-func NewMyMaxHeap() *MyMaxHeap {
-	return &MyMaxHeap{
-		data: []UserBalance{},
+func NewMaxHeap() *MaxHeap {
+	return &MaxHeap{
+		data: []int{},
 		size: 0,
 	}
 }
 
-func (h *MyMaxHeap) add(userBalance UserBalance) {
+func (h *MaxHeap) add(num int) {
 	h.size += 1
-	h.data = append(h.data, userBalance)
+	h.data = append(h.data, num)
 	h.heapifyUp(h.size - 1)
 }
 
-func (h *MyMaxHeap) poll() *UserBalance {
+func (h *MaxHeap) poll() int {
 	if h.size <= 0 {
-		return nil
+		return -1
 	}
 
-	userBalance := h.data[0]
+	num := h.data[0]
 	h.size -= 1
 	h.data[0] = h.data[h.size]
 	h.data = h.data[:h.size]
 	h.heapifyDown(0)
 
-	return &userBalance
+	return num
 }
 
-func (h *MyMaxHeap) peek() *UserBalance {
+func (h *MaxHeap) peek() int {
 	if h.size <= 0 {
-		return nil
+		return -1
 	}
 
-	return &h.data[0]
+	return h.data[0]
 }
 
-func (h *MyMaxHeap) heapifyUp(index int) {
+func (h *MaxHeap) isEmpty() bool {
+	return h.size <= 0
+}
+
+func (h *MaxHeap) heapifyUp(index int) {
 	if h.size == 0 && !h.isValidIndex(index) {
 		return
 	}
 
 	parentInd := parent(index)
-	if parentInd >= 0 && h.data[index].balance > h.data[parentInd].balance {
+	if parentInd >= 0 && h.data[index] > h.data[parentInd] {
 		h.swap(parentInd, index)
 		h.heapifyUp(parentInd)
 	}
 }
 
-func (h *MyMaxHeap) heapifyDown(index int) {
+func (h *MaxHeap) heapifyDown(index int) {
 	if h.size == 0 || !h.isValidIndex(index) {
 		return
 	}
 
 	maxIndex := index
-	maxBalance := h.data[index].balance
+	maxNum := h.data[index]
 	if leftChildInd := leftChild(index); h.isValidIndex(leftChildInd) {
-		if maxBalance < h.data[leftChildInd].balance {
-			maxBalance = h.data[leftChildInd].balance
+		if maxNum < h.data[leftChildInd] {
+			maxNum = h.data[leftChildInd]
 			maxIndex = leftChildInd
 		}
 	}
 
 	if rightChildInd := rightChild(index); h.isValidIndex(rightChildInd) {
-		if maxBalance < h.data[rightChildInd].balance {
-			maxBalance = h.data[rightChildInd].balance
+		if maxNum < h.data[rightChildInd] {
+			maxNum = h.data[rightChildInd]
 			maxIndex = rightChildInd
 		}
 	}
@@ -85,7 +84,7 @@ func (h *MyMaxHeap) heapifyDown(index int) {
 
 }
 
-func (h *MyMaxHeap) isValidIndex(index int) bool {
+func (h *MaxHeap) isValidIndex(index int) bool {
 	return index >= 0 && index < h.size
 }
 
@@ -105,7 +104,7 @@ func rightChild(index int) int {
 	return (2 * index) + 2
 }
 
-func (h *MyMaxHeap) swap(i int, j int) {
+func (h *MaxHeap) swap(i int, j int) {
 	if h.size <= 0 || i < 0 || j < 0 || i >= h.size || j >= h.size {
 		return
 	}
